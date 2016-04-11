@@ -18,9 +18,9 @@ angular
 });
 // angular.module('myApp.aside', []);
 angular.module('myApp.header', []);
+angular.module('myApp.home', ['myApp.services']);
 angular.module('myApp.services', []);
 angular.module('myApp.user', []);
-angular.module('myApp.home', ['myApp.services']);
 angular
 	.module('myApp.header')
 	.controller('headerController', function ($scope) {
@@ -32,6 +32,31 @@ angular
 	});
 
 
+angular
+	.module('myApp.home')
+	.controller('homeController', function (UserService) {
+		var test = UserService.getService();
+		console.log(test);
+		test.setName("test");
+		console.log(test);
+	});
+angular
+	.module('myApp.home')
+	.directive('myDirective', function () {
+		return {
+			restrict: 'A',
+			replace: true,
+			scope: true,
+			template: '<span>helloe world</span>',
+			compile: function (tElemnet) {
+				console.log('compile: ' + tElemnet);
+				return function (scope, elem) {
+					console.log('link: ' + elem);
+					
+				}
+			}
+		}
+	});
 angular.module('myApp.services')
 .provider('User', function() {
   this.backendUrl = "http://localhost:3000";
@@ -87,13 +112,4 @@ angular
 	.module('myApp.user')
 	.controller('userController', function () {
 		
-	});
-
-angular
-	.module('myApp.home')
-	.controller('homeController', function (UserService) {
-		var test = UserService.getService();
-		console.log(test);
-		test.setName("test");
-		console.log(test);
 	});

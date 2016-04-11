@@ -10,6 +10,7 @@ angular
 				console.log('compile: ' + tElemnet);
 				return function (scope, elem) {
 					console.log('link: ' + elem);
+					
 				}
 			}
 		}
