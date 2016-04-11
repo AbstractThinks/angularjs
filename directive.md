@@ -91,6 +91,7 @@
 	
 
 ###directive嵌套
+![](./img/directive_compile_link.png)
 >由于父指令的`postLink`总是在子指令的`preLink`和`postLink`之后执行，而父指令的`preLink`总是在子指令的`preLink`和`postLink`之前执行，所以当父指令要通过`scope`传递数据数据给子指令（或者说子指令想要访问父指令的作用域数据）时，我们便可以通过`preLink`函数给`scope`赋值
 
 	app.directive('myParent', function () {
@@ -136,6 +137,95 @@
 	}
 
 ###directive的controller
+>#####通过controller名，引用已定义的controller
+
+> 自定义一个`controller`叫做`myController`（存储在`controllers`集合里），然后在指令`myDirective`中，通过字符串`'myController'`引用这个定义好的`controller`，最后在`link`函数中第四个参数便可以调用到这个`controller`实例
+
+> 1.从所有定义好的`controllers`集合（就像`directives`集合一样）里面找名字叫做`'myController'`的`controller`
+> 
+	app.controller('myController', function ($scope) {
+	    $scope.name = 'Lovesueee'; // 给$scope赋值
+	    this.name = 'maxin'; // 给controller实例赋值
+	});
+	app.directive('myDirective', function () {
+	   return {
+	       controller: 'myController',
+	       link: function (scope, elem, attrs, ctrl) {
+	           console.log(ctrl, scope);
+	       }
+	   } 
+	});
+
+> 2.从当前`$scope`里面查找同名的`controller`
+
+	var app = angular.module('myApp', []).run(function ($rootScope) {
+	    // 将controller存在$scope中
+	    $rootScope.myController = function () {
+	        this.name = 'maxin';
+	    }
+	});
+	app.directive('myDirective', function () {
+	   return {
+	       controller: 'myController',
+	       link: function (scope, elem, attrs, ctrl) {
+	           console.log(ctrl);  //ctrl为myController的实例
+	       }
+	   }
+	});
+
+> 3.设置准许全局查找，则会在全局里面查找同名的controller
+
+>#####通过直接定义匿名controller函数
+
+	app.directive('myDirective', function () {
+	   return {
+	       controller: function ($scope) {
+	            $scope.name = 'Lovesueee';
+	            this.name = 'maxin';
+	       },
+	       link: function (scope, elem, attrs, ctrl) {
+	           console.log(scope, ctrl);
+	       }
+	   }
+	});
+
+
+
+>#####嵌套directive中的controller
+
+	app.directive('myParent', function () {
+	    return {
+	        restrict: 'EA',
+	        template: '<div>{{greeting}}{{name}}'+
+	        '<my-child></my-child>'+
+	        '</div>',
+	        controller: function(){
+	            this.name = 'Lovesueee';
+	        },
+	        link: function(scope,elem,attr,ctrl){
+	            scope.name = ctrl.name;
+	            scope.greeting = 'Hey, I am ';
+	        }
+	    };
+	});
+	app.directive('myChild', function () {
+	    return {
+	        restrict: 'EA',
+	        require: '^myParent', // 引用父指令的controller
+	        template: '<div>{{says}}</div>',
+	        link: function(scope,elem,attr,ctrl){
+	            scope.says = 'Hey, I am child, and my parent is '+ ctrl.name;
+	        }
+	    };
+	});
+
+>`require: '^myParent'`,将在`link`函数中引用`myParent`指令中的`controller`实例，整体地从这个例子来看，这其实就是一种**父作用域向子作用域数据传递**的方式
+
+> 1.require: 'myParent' 表示只从当前节点上获取myParent指令的controller实例。
+> 2.require: '^myParent' 表示从当前节点上获取myParent指令的controller实例开始，如果获取不到则一直从parent节点上取。
+> 3.require: '?myParent'，'^?myParent' 或者 '?^myParent' 加上问号，表示获取不到controller实例也不会报错。
+
+![](./img/directive.jpg)
 
 http://www.cnblogs.com/lovesueee/p/4119621.html?utm_source=tuicool&utm_medium=referral
 

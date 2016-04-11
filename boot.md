@@ -1,4 +1,5 @@
 #angularjs执行流程
+![Alt text](./img/process.png)
 
     (function(window, document, undefined) {
     
