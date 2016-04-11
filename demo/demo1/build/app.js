@@ -6,7 +6,7 @@ angular
             // home page
             .when('/', {
                 templateUrl: './vendor/home/tpl/home.html',
-                controller: 'homeController'
+                controller: 'homeController' 
             })
 
             // user page
@@ -70,8 +70,8 @@ angular
 	       link: function (scope, elem, attrs, ctrl) {
 	       		console.log(scope);
 	            console.log(ctrl); //ctrl为controller对象
-	            ctrl.name = "min";
-	            ctrl.say();
+	            ctrl.name = "min"; 
+	            ctrl.say();  
 	       }
 	   } 
 	})
@@ -85,7 +85,7 @@ angular
 	            this.name = 'Lovesueee';
 	        },
 	        link: function(scope,elem,attr,ctrl){
-	        	console.log(ctrl.name)
+	        	console.log(ctrl.name);  
 	            scope.name = ctrl.name;
 	            scope.greeting = 'Hey, I am ';
 	        }

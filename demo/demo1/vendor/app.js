@@ -6,7 +6,7 @@ angular
             // home page
             .when('/', {
                 templateUrl: './vendor/home/tpl/home.html',
-                controller: 'homeController'
+                controller: 'homeController' 
             })
 
             // user page
