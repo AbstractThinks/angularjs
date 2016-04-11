@@ -120,6 +120,9 @@
 		});
 
 #总结
->1. 当我们希望在应用开始前对`service`进行配置的时候就需要使用到`provider()`;
+>__使用`service`前一定要先注入到模块中,例：`angular.module('myApp', ['myApp.service'])`__
+
+>1. 当我们希望在应用开始前对`service`进行配置的时候就需要使用到`provider()`,如果`service`定义的名称为`User`,在`.config`回调函数中参数为`UserProvider`,其他回调函数为`User`;
 >2. 当我们打算发布开源`provider()`也是首选创建`service`的方法，这样就可以使用配置的方式来配置`services`而不是将配置数据硬编码写到代码里面。
 >3. 将配置数据硬编码写到代码里面`factory()`
+
