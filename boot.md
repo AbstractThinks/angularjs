@@ -43,14 +43,14 @@
 ***
 
 >###angularInit
->`var injector = createInjector(modules);`把要初始化的模块传进`DI`中,并返回一个依赖对象。
->`DI`其实就是`createInjector`函数,这个是`angularjs`管理依赖注入的核心函数
-1. 这里的`modules`参数包含一个ng模块,
-2. 一个定义`$rootElement`值的模块,
-3. 一个业务对应的模块
-4. 这个函数内部包含有创建项目服务的几个关键方法,比如[provider,service,value,factory](./service.md)
-5. 这里`providerCache`预存了`$provider`服务类，用来提供自定义`service`的注册，支持下面几个方法：
-6. `loadModules`加载应用依赖模块以及内置的`ng`模块等,方法最后返回一个运行块代码,所以一般项目里的`run`方法会在模块加载完以及`config`方法调用完之后运行.`run`方法代码在这里执行`instanceInjector.invoke(fn || noop)`
+1. `var injector = createInjector(modules);`把要初始化的模块传进`DI`中,并返回一个依赖对象。
+2. `DI`其实就是`createInjector`函数,这个是`angularjs`管理依赖注入的核心函数
+3. 这里的`modules`参数包含一个ng模块
+4. 一个定义`$rootElement`值的模块
+5. 一个业务对应的模块
+6. 这个函数内部包含有创建项目服务的几个关键方法,比如[provider,service,value,factory](./service.md)
+7. 这里`providerCache`预存了`$provider`服务类，用来提供自定义`service`的注册，支持下面几个方法：
+8. `loadModules`加载应用依赖模块以及内置的`ng`模块等,方法最后返回一个运行块代码,所以一般项目里的`run`方法会在模块加载完以及`config`方法调用完之后运行.`run`方法代码在这里执行`instanceInjector.invoke(fn || noop)`
 
 	$provide: {
 		provider: supportObject(provider),
